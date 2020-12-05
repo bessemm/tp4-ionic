@@ -7,7 +7,7 @@
 </ion-header>
 
 
-<ion-content class="scroll-content ionic-scroll  has-header" >
+<ion-content [fullscreen]="true" class="scroll-content ionic-scroll  has-header" >
    <div class="bg-img">
    
    <h1> Today,</h1>
@@ -35,12 +35,12 @@
    <ion-button (click)="addNewTask()">
     <ion-icon  slot="icon-only" name="add-outline">  </ion-icon >
     </ion-button>
-   <ion-button *ngIf="addTask" (click)="showForm()" expand="block" class="add-button">
+  
+   </ion-item>
+ <ion-button *ngIf="addTask" (click)="showForm()" expand="block" class="add-button">
   <ion-icon name="close" slot="start"></ion-icon>
   Annuler
 </ion-button>
-   </ion-item>
-
      <ion-button *ngIf="!addTask" (click)="showForm()" expand="block" class="add-button">
   <ion-icon name="add" slot="start"></ion-icon>
   Ajouter une tâche

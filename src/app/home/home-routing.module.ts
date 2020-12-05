@@ -11,6 +11,9 @@ const routes: Routes = [
         path: 'todo',
         loadChildren: () => import('../pages/todo-list/todo-list.module').then( m => m.TodoListPageModule)
       }, {
+        path: 'done',
+        loadChildren: () => import('../pages/done/done.module').then( m => m.DonePageModule)
+      },{
         path: '',
         redirectTo : 'todo',
         pathMatch : 'full' 
