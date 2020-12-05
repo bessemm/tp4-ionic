@@ -1,0 +1,54 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Todo App
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="scroll-content ionic-scroll  has-header" >
+   <div class="bg-img">
+   
+   <h1> Today,</h1>
+   <h5>{{currentDate }} </h5>
+   
+ 
+ <ion-card *ngFor="let task of allTasks">
+ 
+  <ion-item >
+  <ion-checkbox (ionChange)="changeCheckedState(task)" [(ngModel)]="task.checked" color="success"> </ion-checkbox>
+ 
+<ion-label>
+<h2 *ngIf="!task.checked" >{{task.text}}  </h2>
+<h2 *ngIf="task.checked" style="text-decoration: line-through">{{task.text}}  </h2>
+
+</ion-label>
+
+<p>{{task.date}}</p>
+ </ion-item>
+
+  </ion-card>
+
+   <ion-item *ngIf="addTask"  >
+   <ion-input [(ngModel)]="newTask"> </ion-input> 
+   <ion-button (click)="addNewTask()">
+    <ion-icon  slot="icon-only" name="add-outline">  </ion-icon >
+    </ion-button>
+   <ion-button *ngIf="addTask" (click)="showForm()" expand="block" class="add-button">
+  <ion-icon name="close" slot="start"></ion-icon>
+  Annuler
+</ion-button>
+   </ion-item>
+
+     <ion-button *ngIf="!addTask" (click)="showForm()" expand="block" class="add-button">
+  <ion-icon name="add" slot="start"></ion-icon>
+  Ajouter une tâche
+</ion-button>
+
+
+ 
+  
+  </div>
+
+</ion-content>

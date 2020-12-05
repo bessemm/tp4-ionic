@@ -6,6 +6,17 @@ const routes: Routes = [
   {
     path: '',
     component: HomePage,
+    children: [
+      {
+        path: 'todo',
+        loadChildren: () => import('../pages/todo-list/todo-list.module').then( m => m.TodoListPageModule)
+      }, {
+        path: '',
+        redirectTo : 'todo',
+        pathMatch : 'full' 
+
+       },
+    ]
   }
 ];
 

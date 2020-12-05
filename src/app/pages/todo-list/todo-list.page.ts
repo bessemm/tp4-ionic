@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-todo-list',
+  templateUrl: './todo-list.page.html',
+  styleUrls: ['./todo-list.page.scss'],
 })
-export class HomePage implements OnInit {
+export class TodoListPage  implements OnInit {
 
 
   currentDate: string;
@@ -53,4 +53,5 @@ export class HomePage implements OnInit {
     this.addTask = !this.addTask;
     this.newTask = '';
   }
+
 }
