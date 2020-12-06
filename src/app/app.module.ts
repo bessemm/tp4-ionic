@@ -6,10 +6,12 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import {AngularFireModule} from '@angular/fire'
-import {AngularFireDatabaseModule } from '@angular/fire/database'
+import {AngularFireModule} from '@angular/fire';
+import {AngularFireDatabaseModule } from '@angular/fire/database';
+
  // Your web app's Firebase configuration
  export var firebaseConfig = {
   apiKey: "AIzaSyCfoafpS5fz_WqCQ_1wRUhZvhcntYI08HA",
@@ -22,7 +24,7 @@ import {AngularFireDatabaseModule } from '@angular/fire/database'
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
+  imports: [BrowserModule, IonicModule.forRoot(),HttpClientModule, AppRoutingModule,
      AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule],
   providers: [
