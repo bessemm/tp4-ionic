@@ -8,7 +8,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 })
 export class HomePage implements OnInit {
 
-
+  nbreItem = 0 ;
   currentDate: string;
   newTask: string = '';
   allTasks = []
@@ -27,6 +27,10 @@ export class HomePage implements OnInit {
     this.angularFire.list('Tasks/').snapshotChanges(['child_added', 'child_removed']).subscribe(data => {
       console.log(data)
       data.forEach(el => {
+        if(!el.payload.exportVal().checked)
+        {
+          this.nbreItem =  this.nbreItem + 1
+        }
         this.allTasks.push({
           key: el.key,
           text: el.payload.exportVal().text,
@@ -37,20 +41,5 @@ export class HomePage implements OnInit {
 
     })
   }
-  addNewTask() {
-    console.log(this.newTask);
-    this.angularFire.list('Tasks/').push({
-      text: this.newTask
-      , date: new Date().toISOString(),
-      checked: false
-    });
-    this.newTask = ''
-  }
-  changeCheckedState(task) {
-    this.angularFire.object(`Tasks/${task.key}/checked`).set(task.checked);
-  }
-  showForm() {
-    this.addTask = !this.addTask;
-    this.newTask = '';
-  }
+ 
 }
