@@ -27,11 +27,11 @@
         <ion-button type="submit" expand="block" [disabled]="!credentials.valid">Log in</ion-button>
          
         <ion-button type="button" (click)="register()" expand="block" color="tertiary">
-            <ion-icon name="logo-google" slot="start"></ion-icon>
+            <ion-icon  slot="start"></ion-icon>
             register
         </ion-button>
-        <ion-button type="button"  (click)="resPass()"  expand="block" color="tertiary">
-            <ion-icon name="logo-apple" slot="start"></ion-icon>
+        <ion-button type="button"  (click)="resPass()"  expand="block" color="danger">
+            <ion-icon slot="start" ></ion-icon>
             forgot password
         </ion-button>
     </form>
