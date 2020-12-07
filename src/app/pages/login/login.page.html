@@ -1,10 +1,19 @@
 <ion-header>
     <ion-toolbar color="primary">
-        <ion-title>Log In</ion-title>
+        <ion-title>Welcome</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
+<div class="bg-img">
+    <div class="ion-padding">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="4" offset="4" class="ion-align-self-center">
+            <ion-img style="width: 250px; height: 250px;" src="../../assets/img1.png"></ion-img>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
 
     <form (ngSubmit)="login()" [formGroup]="credentials">
         <div class="input-group">
@@ -24,15 +33,22 @@
             </div>
         </div>
 
-        <ion-button type="submit" expand="block" [disabled]="!credentials.valid">Log in</ion-button>
+        <ion-button type="submit" expand="block" [disabled]="!credentials.valid">Log in
+        <ion-icon slot="start" name="log-in-outline"></ion-icon>
+
+        </ion-button>
          
         <ion-button type="button" (click)="register()" expand="block" color="tertiary">
-            <ion-icon  slot="start"></ion-icon>
+            <ion-icon slot="start" name="pencil-outline"></ion-icon>
+
             register
         </ion-button>
         <ion-button type="button"  (click)="resPass()"  expand="block" color="danger">
-            <ion-icon slot="start" ></ion-icon>
+            <ion-icon slot="start" name="key-outline"></ion-icon>
+
             forgot password
         </ion-button>
     </form>
+    </div>
+    </div>
 </ion-content>
