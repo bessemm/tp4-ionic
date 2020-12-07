@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar color="primary">
-        <ion-title>Devdactic App</ion-title>
+        <ion-title>Log In</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -25,9 +25,7 @@
         </div>
 
         <ion-button type="submit" expand="block" [disabled]="!credentials.valid">Log in</ion-button>
-        <ion-button type="button" expand="block" color="light" fill="clear">Not yet a member? Sign up!
-        </ion-button>
-
+         
         <ion-button type="button" (click)="register()" expand="block" color="tertiary">
             <ion-icon name="logo-google" slot="start"></ion-icon>
             register

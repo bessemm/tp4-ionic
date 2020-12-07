@@ -1,18 +1,22 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Done</ion-title>
+    <ion-title>TodoList</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 <div class="bg-img">
+
+   <h1> Today,</h1>
+   <h5>{{currentDate }} </h5>
+   
  <ion-card *ngFor="let task of allTasks">
  
   <ion-item >
-  <ion-checkbox (ionChange)="changeCheckedState(task)" [(ngModel)]="task.checked" color="success"> </ion-checkbox>
+  <ion-checkbox (ionChange)="changeCheckedState(task)" readOnly [(ngModel)]="task.checked" color="success"> </ion-checkbox>
  
 <ion-label>
- <h2 *ngIf="task.checked" style="text-decoration: line-through">{{task.text}}  </h2>
+ <h2   style="text-decoration: line-through">{{task.text}}  </h2>
 
 </ion-label>
 

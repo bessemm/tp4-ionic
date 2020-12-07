@@ -7,8 +7,13 @@ import { AngularFireDatabase } from '@angular/fire/database';
   styleUrls: ['./done.page.scss'],
 })
 export class DonePage implements OnInit {
-  allTasks = []
-  constructor(private angularFire: AngularFireDatabase) { }
+  allTasks = [] ;
+  currentDate ='' ;
+  constructor(private angularFire: AngularFireDatabase) { 
+    const todayDate = new Date();
+    const options = { weekday: 'long', month: 'long', day: 'numeric' };
+    this.currentDate = todayDate.toLocaleDateString('en-en', options);
+  }
   ngOnInit() {
     this.getTasks();
   }
@@ -28,5 +33,7 @@ export class DonePage implements OnInit {
 
     })
   }
-
+  changeCheckedState(task) {
+    this.angularFire.object(`Tasks/${task.key}/checked`).set(true);
+  }
 }

@@ -11,7 +11,11 @@ export class AuthenticationService {
   isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   token: any;
 
-  constructor(private angularFireAuth: AngularFireAuth) { }
+  constructor(private angularFireAuth: AngularFireAuth) {
+    if (localStorage.getItem(TOKEN_KEY))
+      this.isAuthenticated.next(true);
+
+  }
   user() {
     return this.angularFireAuth.user;
   }
@@ -21,8 +25,13 @@ export class AuthenticationService {
         .then(
 
           res => {
+            res.user.getIdToken().then(tok => {
+              console.log(tok); this.token = tok;
+              localStorage.setItem(TOKEN_KEY, this.token)
+            });
+            localStorage.setItem(TOKEN_KEY, this.token)
             this.isAuthenticated.next(true);
-            this.token = res;
+
             return resolve(res);
           },
           err => {
@@ -49,6 +58,8 @@ export class AuthenticationService {
       if (this.angularFireAuth.currentUser) {
         this.angularFireAuth.signOut()
           .then(() => {
+
+            localStorage.clear()
             this.isAuthenticated.next(false);
             console.log("LOG Out");
             resolve();
