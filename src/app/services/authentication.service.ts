@@ -1,49 +1,63 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map, tap, switchMap } from 'rxjs/operators';
-import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
- 
-import { Plugins } from '@capacitor/core';
-const { Storage } = Plugins;
- 
+import { BehaviorSubject } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/auth';
+
 const TOKEN_KEY = 'my-token';
- 
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
   isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
-  token = '';
- 
-  constructor(private http: HttpClient) {
-    this.loadToken();
+  token: any;
+
+  constructor(private angularFireAuth: AngularFireAuth) { }
+  user() {
+    return this.angularFireAuth.user;
   }
- 
-  async loadToken() {
-    const token = await Storage.get({ key: TOKEN_KEY });    
-    if (token && token.value) {
-      console.log('set token: ', token.value);
-      this.token = token.value;
-      this.isAuthenticated.next(true);
-    } else {
-      this.isAuthenticated.next(false);
-    }
+  login(value) {
+    return new Promise<any>((resolve, reject) => {
+      this.angularFireAuth.signInWithEmailAndPassword(value.email, value.password)
+        .then(
+
+          res => {
+            this.isAuthenticated.next(true);
+            this.token = res;
+            return resolve(res);
+          },
+          err => {
+            this.isAuthenticated.next(false);
+            return reject(err);
+          })
+    })
   }
- 
-  login(credentials: {login, password}): Observable<any> {
-    return this.http.post(`https://reqres.in/api/login`, credentials).pipe(
-      map((data: any) => data.token),
-      switchMap(token => {
-        return from(Storage.set({key: TOKEN_KEY, value: token}));
-      }),
-      tap(_ => {
-        this.isAuthenticated.next(true);
-      })
-    )
+  register(value) {
+    return new Promise<any>((resolve, reject) => {
+
+      this.angularFireAuth.createUserWithEmailAndPassword(value.email, value.password)
+        .then(
+          res => resolve(res),
+          err => reject(err))
+    })
+
   }
- 
-  logout(): Promise<void> {
-    this.isAuthenticated.next(false);
-    return Storage.remove({key: TOKEN_KEY});
+
+
+
+  logout() {
+    return new Promise((resolve, reject) => {
+      if (this.angularFireAuth.currentUser) {
+        this.angularFireAuth.signOut()
+          .then(() => {
+            this.isAuthenticated.next(false);
+            console.log("LOG Out");
+            resolve();
+          }).catch((error) => {
+            reject();
+          });
+      }
+    })
   }
+
+
 }

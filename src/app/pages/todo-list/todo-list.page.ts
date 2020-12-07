@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-todo-list',
@@ -13,7 +16,7 @@ export class TodoListPage  implements OnInit {
   newTask: string = '';
   allTasks = []
   addTask: boolean = false;
-  constructor(private angularFire: AngularFireDatabase) {
+  constructor(private angularFire: AngularFireDatabase,private authService : AuthenticationService,private router : Router) {
     const todayDate = new Date();
     const options = { weekday: 'long', month: 'long', day: 'numeric' };
     this.currentDate = todayDate.toLocaleDateString('en-en', options);
@@ -42,9 +45,13 @@ export class TodoListPage  implements OnInit {
     this.angularFire.list('Tasks/').push({
       text: this.newTask
       , date: new Date().toISOString(),
-      checked: false
+      checked: false,
+      userId : this.getUserId()
     });
     this.newTask = ''
+  }
+  getUserId(){
+     this.authService.user().subscribe(user =>  user.uid)
   }
   changeCheckedState(task) {
     this.angularFire.object(`Tasks/${task.key}/checked`).set(task.checked);
@@ -53,5 +60,9 @@ export class TodoListPage  implements OnInit {
     this.addTask = !this.addTask;
     this.newTask = '';
   }
-
+  logout(){
+    this.authService.logout().then(()=> {
+      this.router.navigateByUrl('/login', { replaceUrl: true });
+    })
+  }
 }

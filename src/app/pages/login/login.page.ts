@@ -31,7 +31,7 @@ export class LoginPage implements OnInit {
     const loading = await this.loadingController.create();
     await loading.present();
     
-    this.authService.login(this.credentials.value).subscribe(
+    this.authService.login(this.credentials.value).then(
       async (res) => {
         await loading.dismiss();
         this.router.navigateByUrl('/home', { replaceUrl: true });
@@ -40,7 +40,7 @@ export class LoginPage implements OnInit {
         await loading.dismiss();
         const alert = await this.alertController.create({
           header: 'Login failed',
-          message: res.error.error,
+          message: res.error,
           buttons: ['OK'],
         });
  
