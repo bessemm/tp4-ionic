@@ -13,12 +13,7 @@ const routes: Routes = [
       }, {
         path: 'done',
         loadChildren: () => import('../pages/done/done.module').then( m => m.DonePageModule)
-      },{
-        path: '',
-        redirectTo : 'todo',
-        pathMatch : 'full' 
-
-       },
+      },
     ]
   }
 ];

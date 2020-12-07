@@ -60,9 +60,5 @@ export class TodoListPage  implements OnInit {
     this.addTask = !this.addTask;
     this.newTask = '';
   }
-  logout(){
-    this.authService.logout().then(()=> {
-      this.router.navigateByUrl('/login', { replaceUrl: true });
-    })
-  }
+ 
 }
