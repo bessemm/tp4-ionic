@@ -28,11 +28,11 @@
         <ion-button type="button" expand="block" color="light" fill="clear">Not yet a member? Sign up!
         </ion-button>
 
-        <ion-button type="button" expand="block" color="tertiary">
+        <ion-button type="button" (click)="register()" expand="block" color="tertiary">
             <ion-icon name="logo-google" slot="start"></ion-icon>
             register
         </ion-button>
-        <ion-button type="button" expand="block" color="tertiary">
+        <ion-button type="button"  (click)="resPass()"  expand="block" color="tertiary">
             <ion-icon name="logo-apple" slot="start"></ion-icon>
             forgot password
         </ion-button>
