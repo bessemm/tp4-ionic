@@ -8,10 +8,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
     canLoad: [] // Check if we should show the introduction or forward to inside
   },
-  {
-    path: 'done',
-    loadChildren: () => import('./pages/done/done.module').then( m => m.DonePageModule), canLoad: [AuthGuard]
-  },
+  
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)

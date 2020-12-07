@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +15,7 @@ export class HomePage implements OnInit {
   newTask: string = '';
   allTasks = []
   addTask: boolean = false;
-  constructor(private angularFire: AngularFireDatabase) {
+  constructor(private angularFire: AngularFireDatabase,private authService : AuthenticationService,private router : Router) {
     const todayDate = new Date();
     const options = { weekday: 'long', month: 'long', day: 'numeric' };
     this.currentDate = todayDate.toLocaleDateString('en-en', options);
@@ -41,5 +43,9 @@ export class HomePage implements OnInit {
 
     })
   }
- 
+  logout(){
+    this.authService.logout().then(()=> {
+      this.router.navigateByUrl('/login', { replaceUrl: true });
+    })
+  }
 }
