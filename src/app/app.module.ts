@@ -14,13 +14,14 @@ import {AngularFireDatabaseModule } from '@angular/fire/database';
 
  // Your web app's Firebase configuration
  export const firebaseConfig = {
-  apiKey: "AIzaSyD80Mwh-MkavQii1E1oQtmtwcKVgqmOw8o",
-  authDomain: "todo-7efef.firebaseapp.com",
-  projectId: "todo-7efef",
-  storageBucket: "todo-7efef.appspot.com",
-  messagingSenderId: "51910457730",
-  appId: "1:51910457730:web:cade82f1f351b03e30b79b"
-}
+  apiKey: "AIzaSyCfoafpS5fz_WqCQ_1wRUhZvhcntYI08HA",
+  authDomain: "todo-ionic-app-cc754.firebaseapp.com",
+  databaseURL: "https://todo-ionic-app-cc754-default-rtdb.firebaseio.com",
+  projectId: "todo-ionic-app-cc754",
+  storageBucket: "todo-ionic-app-cc754.appspot.com",
+  messagingSenderId: "840785937280",
+  appId: "1:840785937280:web:7377547fefc74ec857f765"
+};
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

@@ -11,15 +11,12 @@ import { AuthenticationService } from '../services/authentication.service';
 export class HomePage implements OnInit {
 
   nbreItem = 0 ;
-  currentDate: string;
-  newTask: string = '';
+  
   allTasks = []
-  addTask: boolean = false;
+   
+  currentUser =null ;
   constructor(private angularFire: AngularFireDatabase,private authService : AuthenticationService,private router : Router) {
-    const todayDate = new Date();
-    const options = { weekday: 'long', month: 'long', day: 'numeric' };
-    this.currentDate = todayDate.toLocaleDateString('en-en', options);
-
+     
   }
 
   ngOnInit() {
@@ -29,8 +26,9 @@ export class HomePage implements OnInit {
     this.angularFire.list('Tasks/').snapshotChanges(['child_added', 'child_removed']).subscribe(data => {
       console.log(data)
       data.forEach(el => {
-        if(!el.payload.exportVal().checked)
-        {
+        if(!el.payload.exportVal().checked && el.payload.exportVal().userId == this.getUserId())
+        {       
+
           this.nbreItem =  this.nbreItem + 1
         }
         this.allTasks.push({
@@ -47,5 +45,10 @@ export class HomePage implements OnInit {
     this.authService.logout().then(()=> {
       this.router.navigateByUrl('/login', { replaceUrl: true });
     })
+  }
+
+  getUserId(){
+    this.authService.user().subscribe(user => this.currentUser = user)
+    return this.currentUser.uid;
   }
 }

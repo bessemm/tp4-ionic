@@ -9,14 +9,15 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
   templateUrl: './todo-list.page.html',
   styleUrls: ['./todo-list.page.scss'],
 })
-export class TodoListPage  implements OnInit {
+export class TodoListPage implements OnInit {
 
 
   currentDate: string;
   newTask: string = '';
   allTasks = []
   addTask: boolean = false;
-  constructor(private angularFire: AngularFireDatabase,private authService : AuthenticationService,private router : Router) {
+  currentUser = null;
+  constructor(private angularFire: AngularFireDatabase, private authService: AuthenticationService, private router: Router) {
     const todayDate = new Date();
     const options = { weekday: 'long', month: 'long', day: 'numeric' };
     this.currentDate = todayDate.toLocaleDateString('en-en', options);
@@ -30,35 +31,42 @@ export class TodoListPage  implements OnInit {
     this.angularFire.list('Tasks/').snapshotChanges(['child_added', 'child_removed']).subscribe(data => {
       console.log(data)
       data.forEach(el => {
-        this.allTasks.push({
-          key: el.key,
-          text: el.payload.exportVal().text,
-          checked: el.payload.exportVal().checked,
-          date: el.payload.exportVal().date.substring(11, 16)
-        })
-      })
-
+        if (el.payload.exportVal().userId == this.getUserId()) {
+          this.allTasks.push({
+            key: el.key,
+            text: el.payload.exportVal().text,
+            checked: el.payload.exportVal().checked,
+            date: el.payload.exportVal().date.substring(11, 16)
+          })
+        }})
+     
     })
-  }
-  addNewTask() {
-    console.log(this.newTask);
-    this.angularFire.list('Tasks/').push({
-      text: this.newTask
-      , date: new Date().toISOString(),
-      checked: false,
-      userId : this.getUserId()
-    });
-    this.newTask = ''
-  }
-  getUserId(){
-     this.authService.user().subscribe(user =>  user.uid)
-  }
-  changeCheckedState(task) {
-    this.angularFire.object(`Tasks/${task.key}/checked`).set(task.checked);
-  }
-  showForm() {
-    this.addTask = !this.addTask;
-    this.newTask = '';
-  }
+}
+addNewTask() {
+  console.log(this.newTask);
+  this.angularFire.list('Tasks/').push({
+    text: this.newTask
+    , date: new Date().toISOString(),
+    checked: false,
+    userId: this.getUserId()
+  }).then(res =>{
+    console.log(res)
+  }).catch(err =>{
+    console.log(err);
+    
+  });
+  this.newTask = ''
+}
+getUserId(){
+  this.authService.user().subscribe(user => this.currentUser = user)
+  return this.currentUser.uid;
+}
+changeCheckedState(task) {
+  this.angularFire.object(`Tasks/${task.key}/checked`).set(task.checked);
+}
+showForm() {
+  this.addTask = !this.addTask;
+  this.newTask = '';
+}
  
 }
