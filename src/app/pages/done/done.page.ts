@@ -17,7 +17,12 @@ export class DonePage implements OnInit {
     this.currentDate = todayDate.toLocaleDateString('en-en', options);
   }
   ngOnInit() {
-    this.getTasks();
+    this.authService.user().subscribe(user =>{
+      this.currentUser = user
+      this.getTasks();
+    } )
+
+   
   }
   getTasks() {
     this.angularFire.list('Tasks/').snapshotChanges(['child_added', 'child_removed']).subscribe(data => {
@@ -40,7 +45,6 @@ export class DonePage implements OnInit {
   }
 
   getUserId(){
-    this.authService.user().subscribe(user => this.currentUser = user)
     return this.currentUser.uid;
   }
 }

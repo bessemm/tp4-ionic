@@ -25,10 +25,13 @@ export class TodoListPage implements OnInit {
   }
 
   ngOnInit() {
-    this.getTasks();
+    this.authService.user().subscribe(user =>{
+      this.currentUser = user
+      this.getTasks();
+    } )
   }
   getTasks() {
-    this.angularFire.list('Tasks/').snapshotChanges(['child_added', 'child_removed']).subscribe(data => {
+    this.angularFire.list('Tasks/').snapshotChanges(['child_added']).subscribe(data => {
       console.log(data)
       data.forEach(el => {
         if (el.payload.exportVal().userId == this.getUserId()) {
@@ -44,6 +47,7 @@ export class TodoListPage implements OnInit {
 }
 addNewTask() {
   console.log(this.newTask);
+  this.allTasks=[]
   this.angularFire.list('Tasks/').push({
     text: this.newTask
     , date: new Date().toISOString(),
@@ -51,6 +55,8 @@ addNewTask() {
     userId: this.getUserId()
   }).then(res =>{
     console.log(res)
+   // this.router.navigateByUrl('/home/todo')
+   
   }).catch(err =>{
     console.log(err);
     
@@ -58,7 +64,7 @@ addNewTask() {
   this.newTask = ''
 }
 getUserId(){
-  this.authService.user().subscribe(user => this.currentUser = user)
+  
   return this.currentUser.uid;
 }
 changeCheckedState(task) {

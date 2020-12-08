@@ -20,7 +20,10 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.getTasks();
+    this.authService.user().subscribe(user =>{
+      this.currentUser = user
+      this.getTasks();
+    } )
   }
   getTasks() {
     this.angularFire.list('Tasks/').snapshotChanges(['child_added', 'child_removed']).subscribe(data => {
@@ -48,7 +51,7 @@ export class HomePage implements OnInit {
   }
 
   getUserId(){
-    this.authService.user().subscribe(user => this.currentUser = user)
+    
     return this.currentUser.uid;
   }
 }
